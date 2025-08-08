@@ -1,0 +1,16 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp180s0f1np1:
+      dhcp4: no
+      virtual-function-count: 1
+    enp180s0f1v0:
+      link: enp180s0f1np1
+      dhcp4: no
+  vlans:
+    internal:
+      id: 152
+      link: enp180s0f1v0
+      addresses:
+        - 10.8.52.78/24
