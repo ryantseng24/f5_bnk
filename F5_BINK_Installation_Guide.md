@@ -34,7 +34,7 @@ pwd
 ```
 
 **⚠️ 重要：** 在繼續之前，請務必更新以下文件中的實際值：
-- `far-secret.yaml` - 填入您的 F5 映像倉庫認證
+- `far-secret.yaml` - 填入您的 F5 映像倉庫認證 (從myf5下載Service Account Key , 並透過第三步轉成far-secret.yaml）
 - `flo_values_prod.yaml` - 填入您的 JWT 授權 token  
 - `cpcl-key.yaml` - 填入您的 CPCL 密鑰
 
@@ -59,6 +59,31 @@ kubectl get namespaces
 ```
 
 ### Step 3: 配置映像倉庫認證
+```bash
+# 將以下內容存成sh檔案，並執行，產生far-secret.yaml
+#!/bin/bash
+
+# Read the content of pipeline.json into the SERVICE_ACCOUNT_KEY variable
+SERVICE_ACCOUNT_KEY=$(cat cne_pull_64.json)
+
+# Create the SERVICE_ACCOUNT_K8S_SECRET variable by appending "_json_key_base64:" to the base64 encoded SERVICE_ACCOUNT_KEY
+SERVICE_ACCOUNT_K8S_SECRET=$(echo "_json_key_base64:${SERVICE_ACCOUNT_KEY}" | base64 -w 0)
+
+# Create the secret.yaml file with the provided content
+cat << EOF > far-secret.yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: far-secret
+data:
+  .dockerconfigjson: $(echo "{\"auths\": {\
+\"repo.f5.com\":\
+{\"auth\": \"$SERVICE_ACCOUNT_K8S_SECRET\"}}}" | base64 -w 0)
+type: kubernetes.io/dockerconfigjson
+EOF
+```
+
 ```bash
 # 確保在 f5_bnk 工作目錄中
 # 創建映像拉取密鑰
