@@ -1,0 +1,29 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: sf-external
+  annotations:
+    k8s.v1.cni.cncf.io/resourceName: nvidia.com/bf3_p0_sf
+spec:
+  config: '{
+  "cniVersion": "0.3.1",
+  "name": "sf-external",
+  "type": "sf",
+  "logLevel": "debug",
+  "logFile": "/tmp/sf-external.log"
+}'
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: sf-internal
+  annotations:
+    k8s.v1.cni.cncf.io/resourceName: nvidia.com/bf3_p1_sf
+spec:
+  config: '{
+  "cniVersion": "0.3.1",
+  "name": "sf-internal",
+  "type": "sf",
+  "logLevel": "debug",
+  "logFile": "/tmp/sf-internal.log"
+}'
