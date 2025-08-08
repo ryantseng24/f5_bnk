@@ -109,6 +109,9 @@ kubectl apply -f cluster-issuer.yaml
 # 創建 OTEL 證書
 kubectl apply -f otel-certs.yaml -n f5-utils
 kubectl apply -f otel-certs.yaml -n f5-bnk
+
+# 安裝cmctl 工具，並執行以下指令確定The cert-manager API is ready
+cmctl check api
 ```
 
 ### Step 5: 登入 F5 Helm Repository
@@ -215,7 +218,9 @@ kubectl wait --for=condition=ready pod -l app=f5-tmm -n f5-bnk --timeout=600s
 # 配置 SR-IOV VF（如果需要）
 sudo echo 1 > /sys/class/infiniband/mlx5_1/device/sriov_numvfs
 
-# 應用 netplan 配置（如果有修改）
+# 新增一個VF for DPU to Host Data plane
+sudo vi /etc/netplan/10-vf-config.yaml
+ 
 sudo netplan apply
 ```
 
