@@ -36,7 +36,6 @@ pwd
 **⚠️ 重要：** 在繼續之前，請務必更新以下文件中的實際值：
 - `far-secret.yaml` - 填入您的 F5 映像倉庫認證 (從myf5下載Service Account Key , 並透過第三步轉成far-secret.yaml）
 - `flo_values_prod.yaml` - 填入您的 JWT 授權 token  
-- `cpcl-key.yaml` - 填入您的 CPCL 密鑰
 
 ### Step 1: 節點標籤配置
 ```bash
@@ -59,8 +58,8 @@ kubectl get namespaces
 ```
 
 ### Step 3: 配置映像倉庫認證
-```bash
 # 將以下內容存成sh檔案，並執行，產生far-secret.yaml
+```bash
 #!/bin/bash
 
 # Read the content of pipeline.json into the SERVICE_ACCOUNT_KEY variable
@@ -126,6 +125,7 @@ tar zxvf f5-cert-gen-0.9.3.tgz
 # 在工作目錄下會生成一個目錄cert-gen
 sh cert-gen/gen_cert.sh -s=api-server -a=f5-spk-cwc.f5-utils -n=1
 # 注意除了生成cwc-license-certs.yaml 會在下一個步驟部署，也會生成api-server-secrets 這個目錄後續會用到
+# 注意cwc.f5-utils 這個名稱代表CWC 會安裝在f5-utils (在做完第十二步驟的時候，可以kubectl get pods -A 去對照一下）
 ```
 
 ### Step 6: 配置 CWC 授權證書
@@ -133,7 +133,7 @@ sh cert-gen/gen_cert.sh -s=api-server -a=f5-spk-cwc.f5-utils -n=1
 # 應用 CWC 授權證書
 kubectl apply -f cwc-license-certs.yaml -n f5-utils
 
-# 應用 CPCL 密鑰
+# 應用 CPCL 密鑰 （不需要變更內容）
 kubectl apply -f cpcl-key.yaml --namespace f5-utils
 ```
 
