@@ -1,0 +1,14 @@
+apiVersion: "k8s.f5net.com/v1"
+kind: F5SPKVlan
+metadata:
+  name: external-vlan
+  namespace: f5-bnk
+spec:
+  name: external-vlan
+  mtu: 8000
+  tag: 138
+  interfaces:
+    - "1.1"
+  selfip_v4s:
+    [10.8.38.77]
+  prefixlen_v4: 24

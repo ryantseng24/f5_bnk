@@ -1,0 +1,7 @@
+orchestrator:
+  enabled: true
+global:
+  certmgr:
+    external: true
+conversion:
+  namespace: f5-utils

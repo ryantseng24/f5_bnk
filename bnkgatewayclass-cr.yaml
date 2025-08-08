@@ -1,0 +1,64 @@
+apiVersion: k8s.f5.com/v1
+kind: BNKGatewayClass
+metadata:
+  labels:
+    app.kubernetes.io/name: f5-lifecycle-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: bnkgatewayclass-testing
+spec:
+  manifestVersion: "2.0.0-1.7.8-0.3.37"
+  containerPlatform: Generic
+  telemetry:
+    loggingSubsystem:
+      enabled: true
+    metricSubsystem:
+      enabled: true
+  certificate:
+    clusterIssuer: arm-ca-cluster-issuer
+  deploymentSize: "Large"
+  image:
+    repository: "repo.f5.com/images"
+    imagePullSecrets:
+    - name: far-secret
+    imagePullPolicy: Always
+  networkAttachments:
+  - sf-external
+  - sf-internal
+     
+  # Features
+  # CSRC Egress
+  pseudoCNI:
+    enabled: true
+  # BGP
+  dynamicRouting:
+    enabled: true
+  # Core dump files
+  coreCollection:
+    enabled: false
+  # AFM
+  firewallACL:
+    enabled: true
+ 
+  advanced:
+    demoMode:
+      enabled: false
+    maintenanceMode:
+      enabled: false
+    pseudoCNI:
+      env:
+      - name: "EXCLUDE_CIDR"
+        value: "100.96.8.0/11,100.96.0.0/11"
+    tmm:
+      env:
+      - name: "TMM_CALICO_ROUTER"
+        value: "default"
+      - name: "TMM_LOG_LEVEL"
+        value: "Debug" 
+ 
+    #firewallACL:
+    #  env:
+    #  -name: "LOG_LEVEL"
+    #   value: "info"
+ 
+    #cwc:
+    #  env:

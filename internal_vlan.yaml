@@ -1,0 +1,15 @@
+apiVersion: "k8s.f5net.com/v1"
+kind: F5SPKVlan
+metadata:
+  name: internal-vlan
+  namespace: f5-bnk
+spec:
+  name: internal-vlan
+  interfaces:
+    - "1.2"
+  tag: 152
+  selfip_v4s:
+    [10.8.52.77]
+  prefixlen_v4: 24
+  auto_lasthop: "AUTO_LASTHOP_ENABLED"
+  internal: true

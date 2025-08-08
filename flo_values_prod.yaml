@@ -1,0 +1,35 @@
+orchestrator:
+  enabled: true
+global:
+  certmgr:
+    external: true
+    clusterIssuer: arm-ca-cluster-issuer
+  imagePullSecrets:
+    - name: far-secret
+
+conversion:
+  namespace: f5-utils
+
+image:
+  repository: repo.f5.com/images
+  name: f5-lifecycle-operator
+  pullPolicy: Always
+
+fluentbit_sidecar:
+  enabled: true
+  image:
+    name: f5-fluentbit
+
+f5-ipam-operator:
+  image:
+    repository: repo.f5.com/images
+    pullPolicy: IfNotPresent
+  namespace: f5-bnk 
+  nameOverride: "f5-ipam-operator"
+  fullnameOverride: "f5-ipam-operator"
+
+license:
+  teemCertUrl: https://product.apis.f5.com/ee/v1
+  teemEntitlementUrl: https://product-s.apis.f5.com/ee/v1
+  teemInitialConfigUrl: https://product-s.apis.f5.com/ee/v1
+  jwt: "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6InYxIiwiamt1IjoiaHR0cHM6Ly9wcm9kdWN0LmFwaXMuZjUuY29tL2VlL3YxL2tleXMvandrcyJ9.eyJzdWIiOiJGTkktMDgyMWIzOTctOWFlMS00ZmFhLWIyZjEtZTg1MTgxODYxYjA3IiwiaWF0IjoxNzQ5MDg5MjgwLCJpc3MiOiJGNSBJbmMuIiwiYXVkIjoidXJuOmY1OnRlZW0iLCJqdGkiOiJlN2U1ODE4MC00MWIxLTExZjAtOGQ0MS1jZjJmNzE1ODBmYTUiLCJmNV9vcmRlcl90eXBlIjoiZXZhbCJ9.Euit5q3rtJgL8AzoDCKLC7LnibdPHzcWuAVG74_GYCPkdrPPrWURszVJFd9wdOMKlNhIwKbxiO5fS03pfm40MADO2E8bRAkCK3oOHx-d5lSF3XkcSZN5reVTje2vJkLsGtmFeTunBpp3N0kKDNLvT6piaFKOhqzwnX0ifVzvumJ-itYppravnaxnK75mr047m7MFQ86OP2xGARTixbPLNj3jjGos89cHAdwAfhgLFNA_aPsF73o7MIGZznHnxy7igcAyiqyi2zVv6xAVGG8DlOk9mjpOlcYBxg3l0ZgdksYK2cK6kyB66RxKfWxVT3NdyB1Vcv4FeDcR1UmAJGr0_-9Y_qhxUW8sDu7UovBOcSHpohpQRhkqgX_Jh8aUoDJjWx05iKSh8xxJwMhwlWhAoKXbzxXJ2y7jl8gV-OhmrBYIAPvf8ZaNFhPCAHuvJdB9QynZ4VhVTbxnrMTsIalNWkUIVtLriqMa915LuGlLJTRVbrF5FAMZsGXw3NN7JKxU9S-Cd9K9_-p4IRECt4-SaODFzdd6tOtF4MCLW7ntDKm1IwiCoE5GJNpJWNs-hlYV5AF-zHzSLaKa2hjqSApI2rUrHTAgdUQVVSpA1CI_p7aRPHgoyuQXxq-zNUQbgpa3r4Z70TJ4pw9V9aSkQGEpJ7BjH7lJ1ZV7nX2Zkq2gTj0"
