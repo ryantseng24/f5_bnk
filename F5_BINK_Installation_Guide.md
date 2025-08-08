@@ -58,7 +58,7 @@ kubectl get namespaces
 ```
 
 ### Step 3: 配置映像倉庫認證
-# 將以下內容存成sh檔案，並執行，產生far-secret.yaml
+將以下內容存成sh檔案，並執行，產生far-secret.yaml
 ```bash
 #!/bin/bash
 
